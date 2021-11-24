@@ -1,0 +1,30 @@
+
+.container {
+    padding: 0 2rem;
+}
+
+.title {
+    text-align: center;
+}
+
+.states {
+    display: flex;
+}
+
+.checkbox {
+    font-size: 1rem;
+    background-color: transparent;
+    border: none;
+    color: var(--text-color);
+    flex: 1;
+    padding: 0.5rem;
+    border-radius: var(--border-radius);
+    font-weight: bold;
+    margin: 0.5rem;
+}
+
+@media screen and (max-width: 350px) {
+    .container {
+        width: 350px;
+    }
+}

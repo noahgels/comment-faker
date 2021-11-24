@@ -1,116 +1,133 @@
 .container {
-  padding: 0 2rem;
+    background-color: var(--bg-primary);
 }
 
 .main {
-  min-height: 100vh;
-  padding: 4rem 0;
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
-.footer {
-  display: flex;
-  flex: 1;
-  padding: 2rem 0;
-  border-top: 1px solid #eaeaea;
-  justify-content: center;
-  align-items: center;
-}
-
-.footer a {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-grow: 1;
+    display: flex;
+    flex-direction: column;
 }
 
 .title a {
-  color: #0070f3;
-  text-decoration: none;
-}
-
-.title a:hover,
-.title a:focus,
-.title a:active {
-  text-decoration: underline;
+    color: #0070f3;
+    text-decoration: none;
 }
 
 .title {
-  margin: 0;
-  line-height: 1.15;
-  font-size: 4rem;
-}
-
-.title,
-.description {
-  text-align: center;
-}
-
-.description {
-  margin: 4rem 0;
-  line-height: 1.5;
-  font-size: 1.5rem;
+    margin: 0;
+    line-height: 1.15;
+    font-size: 4rem;
 }
 
 .code {
-  background: #fafafa;
-  border-radius: 5px;
-  padding: 0.75rem;
-  font-size: 1.1rem;
-  font-family: Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono,
+    background: #fafafa;
+    border-radius: 5px;
+    padding: 0.75rem;
+    font-size: 1.1rem;
+    font-family: Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono,
     Bitstream Vera Sans Mono, Courier New, monospace;
 }
 
-.grid {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-wrap: wrap;
-  max-width: 800px;
+.commentsHeadline {
+    text-transform: uppercase;
+    color: var(--text-color-secondary);
+    letter-spacing: 0.15ch;
+    text-align: center;
 }
 
-.card {
-  margin: 1rem;
-  padding: 1.5rem;
-  text-align: left;
-  color: inherit;
-  text-decoration: none;
-  border: 1px solid #eaeaea;
-  border-radius: 10px;
-  transition: color 0.15s ease, border-color 0.15s ease;
-  max-width: 300px;
+.comment {
+    padding: 1rem;
+    border-top: var(--border);
 }
 
-.card:hover,
-.card:focus,
-.card:active {
-  color: #0070f3;
-  border-color: #0070f3;
+.comments {
+    border: var(--border);
+    margin: 1rem;
+    border-radius: 1rem;
+    overflow: scroll;
 }
 
-.card h2 {
-  margin: 0 0 1rem 0;
-  font-size: 1.5rem;
+.commentMap {
+    border-bottom: var(--border-color) 0.1ch solid;
 }
 
-.card p {
-  margin: 0;
-  font-size: 1.25rem;
-  line-height: 1.5;
+.inputArea {
+    display: flex;
+    flex-direction: row;
 }
 
-.logo {
-  height: 1em;
-  margin-left: 0.5rem;
+.input {
+    font-size: 1rem;
+    background-color: transparent;
+    color: var(--text-color);
+    padding: 1rem 1.5rem;
+    margin: 1rem;
+    border: 0.1ch solid var(--border-color);
+    flex: 1;
+    border-radius: var(--border-radius);
+    width: 300px;
 }
 
-@media (max-width: 600px) {
-  .grid {
-    width: 100%;
-    flex-direction: column;
-  }
+.input:focus {
+    outline: none;
+}
+
+.sendButton {
+    color: var(--action);
+    background-color: transparent;
+    border: none;
+    font-size: 1rem;
+    font-weight: bold;
+    border: var(--border);
+    border-radius: var(--border-radius);
+    transition: var(--fast-transition);
+    margin: 1rem 1rem 1rem 0;
+    padding: 0 1rem;
+}
+
+.sendButton:active {
+    opacity: 0.5;
+}
+
+.imgPositioner {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+@media screen and (min-width: 831px) {
+
+    .main {
+        flex-direction: row;
+    }
+
+    .comments {
+        flex: 3;
+    }
+
+    .img {
+        object-fit: contain;
+        max-height: 100%;
+        width: 100%;
+    }
+
+    .imgPositioner {
+        height: 100vh;
+        flex: 4;
+    }
+
+}
+
+@media screen and (max-width: 830px) {
+    .img {
+        width: 100vw;
+    }
+}
+
+@media screen and (max-width: 280px) {
+    .container {
+        width: 280px;
+    }
+    .img {
+        width: 280px;
+    }
 }
