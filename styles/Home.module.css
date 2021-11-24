@@ -43,7 +43,7 @@
     border: var(--border);
     margin: 1rem;
     border-radius: 1rem;
-    overflow: scroll;
+    overflow: hidden;
 }
 
 .commentMap {

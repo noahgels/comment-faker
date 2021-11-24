@@ -23,6 +23,30 @@
     margin: 0.5rem;
 }
 
+.comment {
+    padding: 1rem 1.5rem;
+    border: var(--border);
+    border-radius: var(--border-radius);
+    margin-bottom: 1rem;
+    display: flex;
+}
+
+.commentText {
+    flex: 1;
+}
+
+.deleteCommentButton {
+    font-weight: bold;
+    color: var(--red);
+    background-color: transparent;
+    border: none;
+    transition: var(--fast-transition);
+}
+
+.deleteCommentButton:active {
+    opacity: 0.5;
+}
+
 @media screen and (max-width: 350px) {
     .container {
         width: 350px;

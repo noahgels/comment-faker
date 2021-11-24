@@ -7,24 +7,52 @@ export default function Admin(props) {
 
   const socket = useSocket();
 
-  const [showComments, setShowCommentsInState] = useState(false);
-  const [commentingEnabled, setCommentingEnabled] = useState(true);
-
-  const setShowComments = (value) => {
-    socket.emit('setShowComments', value);
-  }
+  const [showComments, setShowCommentsInState] = useState(null);
+  const [commentingEnabled, setCommentingEnabledInState] = useState(null);
+  const [comments, setComments] = useState([]);
 
   useEffect(() => {
-
     if (socket) {
 
       socket.on('showComments', (data) => {
         setShowCommentsInState(data);
       });
 
+      socket.on('commentingEnabled', (data) => {
+        setCommentingEnabledInState(data);
+      });
+
+      socket.on('set', (items) => {
+        setComments(items);
+      });
+
+
+    }
+  }, [socket]);
+
+  const setShowComments = (value) => {
+
+    if (socket) {
+      socket.emit('showComments', value);
     }
 
-  }, [socket]);
+  }
+
+  const setCommentingEnabled = (value) => {
+
+    if (socket) {
+      socket.emit('commentingEnabled', value);
+    }
+
+  }
+
+  const deleteComment = (comment) => {
+
+    if (socket) {
+      socket.emit('deleteComment', comment);
+    }
+
+  }
 
   return (
     <div className={styles.container}>
@@ -34,7 +62,7 @@ export default function Admin(props) {
       <main className={styles.main}>
         <h1 className={styles.title}>Admin - Kommentarcheck</h1>
         <h3>Berechtigungen</h3>
-        <div className={styles.states}>
+        {typeof showComments === 'boolean' ? <div className={styles.states}>
           <button
             className={styles.checkbox}
             onClick={() => setShowComments(!showComments)}
@@ -42,7 +70,7 @@ export default function Admin(props) {
               backgroundColor: showComments ? 'var(--green)' : 'var(--red)',
             }}
           >
-            Kommentare zeigen
+            Sehen
           </button>
           <button
             className={styles.checkbox}
@@ -51,9 +79,23 @@ export default function Admin(props) {
               backgroundColor: commentingEnabled ? 'var(--green)' : 'var(--red)',
             }}
           >
-            Kommentieren
+            Schreiben
+          </button>
+        </div> : null}
+        <h3>Kommentare</h3>
+        {comments.map((comment, index) =>
+        <div key={'comment' + index} className={styles.comment}>
+          <div className={styles.commentText}>
+            {comment}
+          </div>
+          <button
+              className={styles.deleteCommentButton}
+              onClick={() => deleteComment(comment)}
+          >
+            Löschen
           </button>
         </div>
+        )}
       </main>
     </div>
   )

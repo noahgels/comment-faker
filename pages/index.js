@@ -10,16 +10,24 @@ export default function Home() {
   const [value, setValue] = useState('');
   const [comments, setComments] = useState([]);
   const [sentComments, setSentComments] = useState(0);
+  const [showComments, setShowComments] = useState(false);
+  const [commentingEnabled, setCommentingEnabled] = useState(true);
 
   useEffect(() => {
 
     if (socket) {
 
-      socket.emit('get');
-
       socket.on('set', (items) => {
         setComments(items);
       });
+
+      socket.on('showComments', (data) => {
+        setShowComments(data);
+      });
+
+      socket.on('commentingEnabled', (data) => {
+        setCommentingEnabled(data);
+      })
 
     }
 
@@ -31,7 +39,7 @@ export default function Home() {
         socket.emit('post', comment);
         setSentComments(sentComments + 1);
       } else {
-        alert('Hals Maul du hast genug geschrieben');
+        alert('Du hast vorerst genug geschrieben');
       }
       setValue('');
     } else {
@@ -57,16 +65,16 @@ export default function Home() {
         <div className={styles.comments}>
           <h3 className={styles.commentsHeadline}>Kommentare</h3>
           <div className={styles.commentMap}>
-            {comments.map((comment, index) =>
+            {showComments ? comments.map((comment, index) =>
               <div key={'comment' + index} className={styles.comment}>
                 {comment}
               </div>
-            )}
+            ) : null}
           </div>
-          <div className={styles.inputArea}>
+          {commentingEnabled ? <div className={styles.inputArea}>
             <input
-              autoComplete={false}
-              autoCorrect={false}
+              autoComplete={'false'}
+              autoCorrect={'false'}
               size={1}
               className={styles.input}
               placeholder={'Kommentieren... '}
@@ -81,6 +89,7 @@ export default function Home() {
             />
             <button
               className={styles.sendButton}
+              disabled={!(commentingEnabled && value)}
               style={{
                 color: value ? 'var(--action)' : 'var(--action-disabled)',
               }}
@@ -88,7 +97,7 @@ export default function Home() {
             >
               Senden
             </button>
-          </div>
+          </div> : null}
         </div>
       </main>
     </div>
