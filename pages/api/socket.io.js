@@ -6,7 +6,7 @@ let myComments = [];
 // save current temporary state
 const state = {
   showComments: false,
-  commentingEnabled: true,
+  commentingEnabled: false,
   imageNumber: 0,
 }
 

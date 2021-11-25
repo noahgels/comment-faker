@@ -3,6 +3,7 @@ import Image from 'next/image'
 import styles from '../styles/Home.module.css'
 import {useEffect, useState} from "react";
 import useSocket from "../hooks/useSocket";
+import Link from 'next/link';
 
 export default function Home() {
 
@@ -98,6 +99,15 @@ export default function Home() {
               Senden
             </button>
           </div> : null}
+          <Link href={'/about'}>
+            <a>
+              <h3
+                style={{
+                  color: 'var(--action)',
+                }}
+              >Impressum</h3>
+            </a>
+          </Link>
         </div>
       </main>
     </div>

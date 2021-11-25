@@ -14,7 +14,7 @@ body::-webkit-scrollbar {
 
 :root {
   --bg-primary: #000;
-  --bg-secondary: #282828;
+  --bg-secondary: #1c1c1c;
   --text-color: #fefefe;
   --text-color-secondary: #a4a4a4;
   --placeholder-color: #b8b8b8;
