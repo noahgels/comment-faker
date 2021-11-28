@@ -7,7 +7,7 @@ export default function Qr(props) {
 
   const [image, setImage] = useState('image');
 
-  QRCode.toDataURL('http://192.168.178.65:3000')
+  QRCode.toDataURL('https://medienscouts.noahgels.com/')
     .then((url) => {
       setImage(url);
     });
