@@ -28,10 +28,7 @@
 }
 
 .commentsHeadline {
-    text-transform: uppercase;
-    color: var(--text-color-secondary);
-    letter-spacing: 0.15ch;
-    text-align: center;
+
 }
 
 .comment {

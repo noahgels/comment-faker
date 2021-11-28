@@ -1,0 +1,27 @@
+
+
+
+.comment {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2rem;
+    font-weight: bold;
+    height: 100vh;
+}
+
+.scrollUp {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 34vh;
+}
+
+.scrollDown {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100vw;
+    height: 66vh;
+}

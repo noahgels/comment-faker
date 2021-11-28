@@ -9,6 +9,7 @@ export default function useSocket(cb) {
     if (activeSocket) return;
 
     fetch('/api/socket.io')
+      .catch((e) => null)
       .finally(() => {
 
         if (activeSocket) return;

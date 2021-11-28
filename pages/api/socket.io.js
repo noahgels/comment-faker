@@ -1,13 +1,14 @@
 import {Server} from "socket.io";
 
 // a state of our comments (don't need to save more things)
-let myComments = [];
+const myComments = [];
 
 // save current temporary state
 const state = {
   showComments: false,
   commentingEnabled: false,
   imageNumber: 0,
+  presented: 'image',
 }
 
 export default function handler(req, res) {
@@ -20,6 +21,7 @@ export default function handler(req, res) {
 
     io.on('connection', async rawSocket => {
 
+      // Setup custom socket methods
       let socket = rawSocket
 
       socket.all = (ev, args) => {
@@ -28,7 +30,7 @@ export default function handler(req, res) {
       };
 
       socket.publishComments = async () => {
-        socket.all('set', await get());
+        socket.all('set', await getComments());
         socket.all('commentAmount', await getLength());
       }
 
@@ -38,22 +40,33 @@ export default function handler(req, res) {
       });
 
       // get our comments
-      socket.emit('set', await get());
+      socket.emit('set', await getComments());
 
+      // send current image
+      socket.emit('setImage', myComments[state.imageNumber] || null);
 
       // add a new comment
       socket.on('post', async (item) => {
-        await post(item);
+        await postComment(item);
         await socket.publishComments();
       });
 
       // delete all comments
-      socket.on('reset', reset);
+      socket.on('reset', async () => {
+        await resetComments();
+        await socket.publishComments();
+      });
 
       // delete a not so nice comment
       socket.on('deleteComment', async (comment) => {
         await deleteComment(comment);
         await socket.publishComments();
+      });
+
+      // inform our admins to fetch the nice little new image
+      socket.on('postedImage', () => {
+        socket.all('postedImage');
+        socket.all('imageNumber', state.imageNumber);
       });
 
       // react to state changes
@@ -62,7 +75,7 @@ export default function handler(req, res) {
         socket.on(key, (data) => {
           state[key] = data;
           socket.all(key, state[key]);
-        })
+        });
       });
     });
 
@@ -73,7 +86,7 @@ export default function handler(req, res) {
   res.end();
 }
 
-async function get() {
+async function getComments() {
   return myComments;
 }
 
@@ -81,7 +94,7 @@ async function getLength() {
   return myComments.length;
 }
 
-async function post(comment) {
+async function postComment(comment) {
   if (state.commentingEnabled) {
     return myComments.push(comment);
   } else {
@@ -90,11 +103,11 @@ async function post(comment) {
 }
 
 async function deleteComment(comment) {
-  myComments.splice(myComments.indexOf(comment), 1);
+  return myComments.splice(myComments.indexOf(comment), 1);
 }
 
-async function reset() {
-  myComments = [];
+async function resetComments() {
+  return myComments.splice(0, myComments.length);
 }
 
 export const config = {

@@ -6,6 +6,7 @@ body {
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
   background-color: var(--bg-primary);
   color: var(--text-color);
+  scroll-behavior: smooth;
 }
 
 body::-webkit-scrollbar {
@@ -26,8 +27,8 @@ body::-webkit-scrollbar {
   --fast-transition: 100ms ease;
   --border-radius: 2rem;
   --portrait-landscape-switch: 800px;
-  --red: #ff2200;
-  --green: #33dd11;
+  --red: #ff5555;
+  --green: #5cde35;
 }
 
 a {

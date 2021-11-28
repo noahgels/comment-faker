@@ -10,14 +10,13 @@ export default function Home() {
   const socket = useSocket();
   const [value, setValue] = useState('');
   const [comments, setComments] = useState([]);
-  const [sentComments, setSentComments] = useState(0);
   const [showComments, setShowComments] = useState(false);
   const [commentingEnabled, setCommentingEnabled] = useState(true);
+  const [image, setImage] = useState(null);
 
   useEffect(() => {
 
     if (socket) {
-
       socket.on('set', (items) => {
         setComments(items);
       });
@@ -30,18 +29,25 @@ export default function Home() {
         setCommentingEnabled(data);
       })
 
+      socket.on('imageNumber', (data) => {
+        console.log('Trying');
+        fetch('/api/image?index=' + data)
+          .then(res => res.json())
+          .then((res) => {
+            setImage(res[0]);
+          })
+          .catch(() => {
+
+          })
+      });
+
     }
 
   }, [socket]);
 
   const postComment = (comment) => {
     if (socket) {
-      if (sentComments < 3) {
-        socket.emit('post', comment);
-        setSentComments(sentComments + 1);
-      } else {
-        alert('Du hast vorerst genug geschrieben');
-      }
+      socket.emit('post', comment);
       setValue('');
     } else {
       alert('Verbindung verloren... :(');
@@ -57,11 +63,12 @@ export default function Home() {
       <main className={styles.main}>
 
         <div className={styles.imgPositioner}>
-          <img
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          {image ? <img
             className={styles.img}
-            src={'/featured.jpg'}
+            src={image}
             alt={'Kein Bild vorhanden'}
-          />
+          /> : null}
         </div>
         <div className={styles.comments}>
           <h3 className={styles.commentsHeadline}>Kommentare</h3>
@@ -113,3 +120,19 @@ export default function Home() {
     </div>
   )
 }
+
+
+/**
+ * Returns a number whose value is limited to the given range.
+ *
+ * Example: limit the output of this computation to between 0 and 255
+ * (x * 255).clamp(0, 255)
+ *
+ * @param {Number} min The lower boundary of the output range
+ * @param {Number} max The upper boundary of the output range
+ * @returns A number in the range [min, max]
+ * @type Number
+ */
+Number.prototype.clamp = function (min, max) {
+  return Math.min(Math.max(this, min), max);
+};
